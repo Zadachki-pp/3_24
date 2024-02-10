@@ -41,7 +41,7 @@ public:
         _len = 0;
     }
 
-    explicit String(char* c_string) { // NOLINT(cppcoreguidelines-pro-type-member-init)
+    explicit String(const char* c_string) { // NOLINT(cppcoreguidelines-pro-type-member-init)
         _len = std::strlen(c_string) + 1;  // str + '\0'
 
         _create_c_string(_len);
