@@ -2,7 +2,7 @@
 #include <cstring>
 
 
-char* copy_c_string_effective(char* current_string, const char* string_to_copy) {
+void copy_c_string_effective(char* current_string, const char* string_to_copy) {
     size_t c_string_len = strlen(string_to_copy) + 1;
     std::copy(string_to_copy, string_to_copy + c_string_len, current_string);
 }
@@ -37,8 +37,8 @@ public:
 
 
     String() {
-        _c_string = {};
-        _len = 0;
+        _c_string = "";
+        _len = 1;
     }
 
     explicit String(const char* c_string) { // NOLINT(cppcoreguidelines-pro-type-member-init)
@@ -65,8 +65,8 @@ public:
         _copy_to_c_string(other._c_string);
     }
 
-    String operator+(const String& other) {
-        _len += other._len-1;
+    String operator+=(const String& other) {
+        _len += other._len - 1;
 
         auto new_c_string = _copy_c_string();
         _delete_c_string();
@@ -77,9 +77,10 @@ public:
         return *this;
     }
 
-    String operator+=(const String& other) {
-        *this = *this + other;
-        return *this;
+    String operator+(const String& other) {
+        String copy(*this);
+        copy += other;
+        return copy;
     }
 
     char& operator[](size_t index) {
@@ -140,9 +141,11 @@ std::ostream& operator<<(std::ostream& output, const String& string) {
 
 
 int main() {
-    String a("cat");
-    a.at(2) = 'm';
-    std::cout << a << std::endl;
+    String a;
+    String b("ghju");
+
+    a += b;
+    std::cout << (a ) << std::endl;
 
     return 0;
 }
